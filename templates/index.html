@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Equipment Survey</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>  
+<body>
+  <div class="container">
+    <h1>Equipment Survey</h1>
+    <p class="welcome-msg">
+      Thank you for checking out an item, please fill out this survey to update our staff on the status of our equipment.
+    </p>
+
+<form id="survey-form" enctype="multipart/form-data">
+  <label for="equipment_id">UVA Computing ID:</label>
+  <input id="equipment_id" name="equipment_id" required /><br/>
+
+  <label for="item_rented">Item Rented:</label>
+  <select id="item_rented" name="item_rented" required>
+    <option value="">Select item...</option>
+    <option value="Computer">Computer</option>
+    <option value="Printer">Printer</option>
+    <option value="Lab Item">Lab Item</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <!-- Hidden text box for "Other" -->
+  <input type="text" id="item_rented_other" name="item_rented_other" placeholder="Please specify" style="display: none;">
+
+  <label for="condition">Condition:</label>
+  <select id="condition" name="condition">
+    <option value="Excellent">Excellent</option>
+    <option value="Good" selected>Good</option>
+    <option value="Fair">Fair</option>
+    <option value="Poor">Poor</option>
+  </select><br/>
+
+  <label for="location">Return Location:</label>
+  <input id="location" name="location" /><br/>
+
+  <label for="needs_maintenance">Needs Maintenance:</label>
+  <input type="checkbox" id="needs_maintenance" name="needs_maintenance" /><br/>
+
+  <label for="return_date">Expected Return Date:</label>
+  <input type="date" id="return_date" name="return_date" required /><br/>
+
+  <label for="usage_purpose">Usage Purpose:</label>
+  <select id="usage_purpose" name="usage_purpose" required>
+    <option value="">Select purpose...</option>
+    <option value="Class Project">Class Project</option>
+    <option value="Research">Research</option>
+    <option value="Lab Work">Lab Work</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <!-- Hidden text box for "Other" -->
+  <input
+    type="text"
+    id="usage_purpose_other"
+    name="usage_purpose_other"
+    placeholder="Please specify..."
+    style="display:none; margin-top:5px;"
+  />
+  <br/>
+
+  <!-- IMAGE UPLOAD FIELD -->
+  <label for="item_image">Upload Image (optional):</label>
+  <input type="file" id="item_image" name="item_image" accept="image/*"><br/><br/>
+
+  <label for="notes">Notes (optional):</label>
+  <textarea id="notes" name="notes"></textarea><br/>
+
+  <button type="submit">Submit Survey</button>
+</form>
+    <div id="result"></div>
+  </div>
+
+<script>
+  const form = document.getElementById("survey-form");
+  const result = document.getElementById("result");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Build FormData instead of JSON so files can be uploaded
+    const formData = new FormData();
+
+    formData.append("equipment_id", form.equipment_id.value);
+    formData.append("item_rented", form.item_rented.value);
+    formData.append("item_rented_other", form.item_rented_other.value);
+    formData.append("condition", form.condition.value);
+    formData.append("location", form.location.value);
+    formData.append("needs_maintenance", form.needs_maintenance.checked);
+    formData.append("return_date", form.return_date.value);
+    formData.append("usage_purpose", form.usage_purpose.value);
+    formData.append("usage_purpose_other", form.usage_purpose_other.value);
+    formData.append("notes", form.notes.value);
+
+    // Add file if the user selected one
+    if (form.item_image.files.length > 0) {
+      formData.append("item_image", form.item_image.files[0]);
+    }
+
+    try {
+      const res = await fetch("http://127.0.0.1:5000/submit", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+      result.textContent = res.ok
+        ? "Saved successfully!"
+        : JSON.stringify(data);
+    } catch (err) {
+      result.textContent = "Error connecting to API";
+    }
+  });
+
+  // Show/hide "Other" for item_rented
+  document.getElementById("item_rented").addEventListener("change", function () {
+    const otherBox = document.getElementById("item_rented_other");
+    otherBox.style.display = this.value === "Other" ? "block" : "none";
+    if (this.value !== "Other") otherBox.value = "";
+  });
+
+  // Show/hide "Other" for usage_purpose
+  document.getElementById("usage_purpose").addEventListener("change", function () {
+    const otherBox = document.getElementById("usage_purpose_other");
+    otherBox.style.display = this.value === "Other" ? "block" : "none";
+    if (this.value !== "Other") otherBox.value = "";
+  });
+</script>
+
+</body>
+</html>
