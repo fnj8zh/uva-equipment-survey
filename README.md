@@ -4,7 +4,7 @@
 
 ## 1) Executive Summary
 ### **Problem**
-At many colleges, including UVA, students borrow laptops, lab gear, and other technical equipment to get through classes, group projects, and research assignments. But once that equipment leaves its original location, its condition becomes a mystery. Staff members often have no clear record of whether a computer was scratched in an all-nighter at Nau Hall, lab equipment dropped on McCormick, or whether a device needs attention before the next student grabs it. Everything is done in different ways, sometimes paper forms, sometimes emails, sometimes verbal check-ins. This inconsistency leads to lost time, miscommunication, and equipment that degrades faster than it should.What is needed is a simple, lightweight way for borrowers to check in and report back, without overwhelming either the students or the staff.
+At many colleges, including UVA, students borrow laptops, lab gear, and other technical equipment to get through classes, group projects, and research assignments. But once that equipment leaves its original location, its condition becomes a mystery. Staff members often have no clear record of whether a computer was scratched in an all-nighter at Nau Hall, lab equipment dropped on McCormick, or whether a device needs attention before the next student grabs it. Everything is done in different ways, sometimes paper forms, sometimes emails, sometimes verbal check-ins. This inconsistency leads to lost time, miscommunication, and equipment that degrades faster than it should. What is needed is a simple, lightweight way for borrowers to check in and report back, without overwhelming either the students or the staff.
 
 ### **Solution**
 This project creates a simple, student-friendly form that helps equipment borrowers communicate better with staff. Students can quickly report the condition of the item they used, explain what they used it for, leave notes, and even upload a photo before returning it. All of this information is saved automatically in an organized record that staff can review later, making it much easier to track the status of equipment over time. The whole system runs with one command, so it’s easy for any lab or checkout program to set up without special technical knowledge. It’s a small tool that solves an everyday problem in equipment lending.
@@ -40,7 +40,7 @@ This project directly applies the Flask API case from DS 2022 (case 4), while al
 
 **Docker** | Provides environment for execution
 
-**Data formats:**
+### **Data formats:**
 - Survey entries: `.ndjson`
 - Images: `.jpg`, `.png`
 - License: MIT (see LICENSE file)
@@ -157,3 +157,7 @@ Potential future improvements:
 ## 7) Links (Required)
 ### **GitHub Repo:** <https://github.com/fnj8zh/uva-equipment-survey>
 ### **Cloud Deployment:** N/A (local Docker app)
+
+## Acknowledgments
+
+This project used ChatGPT (OpenAI) to help with debugging, and documentation editing. All final design and implementation decisions were made by the author.
